@@ -148,6 +148,17 @@
           }
         }
 
+        &.selected,
+        &.selected:hover {
+          background-color: #fff;
+          color: #ccc;
+          cursor: default;
+
+          &.highlighted {
+            background-color: rgb(229, 242, 255);
+          }
+        }
+
         &[data-view="years prev"],
         &[data-view="year prev"],
         &[data-view="month prev"],

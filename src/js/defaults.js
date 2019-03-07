@@ -76,34 +76,37 @@ export default {
   // A class (CSS) for highlight date item
   highlightedClass: 'highlighted',
 
+  // A class (CSS) for selected date item
+  selectedClass: 'selected',
+
   // The template of the datepicker
   template: (
     '<div class="datepicker-container">'
-      + '<div class="datepicker-panel" data-view="years picker">'
-        + '<ul>'
-          + '<li data-view="years prev">&lsaquo;</li>'
-          + '<li data-view="years current"></li>'
-          + '<li data-view="years next">&rsaquo;</li>'
-        + '</ul>'
-        + '<ul data-view="years"></ul>'
-      + '</div>'
-      + '<div class="datepicker-panel" data-view="months picker">'
-        + '<ul>'
-          + '<li data-view="year prev">&lsaquo;</li>'
-          + '<li data-view="year current"></li>'
-          + '<li data-view="year next">&rsaquo;</li>'
-        + '</ul>'
-        + '<ul data-view="months"></ul>'
-      + '</div>'
-      + '<div class="datepicker-panel" data-view="days picker">'
-        + '<ul>'
-          + '<li data-view="month prev">&lsaquo;</li>'
-          + '<li data-view="month current"></li>'
-          + '<li data-view="month next">&rsaquo;</li>'
-        + '</ul>'
-        + '<ul data-view="week"></ul>'
-        + '<ul data-view="days"></ul>'
-      + '</div>'
+    + '<div class="datepicker-panel" data-view="years picker">'
+    + '<ul>'
+    + '<li data-view="years prev">&lsaquo;</li>'
+    + '<li data-view="years current"></li>'
+    + '<li data-view="years next">&rsaquo;</li>'
+    + '</ul>'
+    + '<ul data-view="years"></ul>'
+    + '</div>'
+    + '<div class="datepicker-panel" data-view="months picker">'
+    + '<ul>'
+    + '<li data-view="year prev">&lsaquo;</li>'
+    + '<li data-view="year current"></li>'
+    + '<li data-view="year next">&rsaquo;</li>'
+    + '</ul>'
+    + '<ul data-view="months"></ul>'
+    + '</div>'
+    + '<div class="datepicker-panel" data-view="days picker">'
+    + '<ul>'
+    + '<li data-view="month prev">&lsaquo;</li>'
+    + '<li data-view="month current"></li>'
+    + '<li data-view="month next">&rsaquo;</li>'
+    + '</ul>'
+    + '<ul data-view="week"></ul>'
+    + '<ul data-view="days"></ul>'
+    + '</div>'
     + '</div>'
   ),
 
@@ -115,6 +118,14 @@ export default {
 
   // Filter each date item (return `false` to disable a date item)
   filter: null,
+
+  // A function that takes a date as a parameter and must return an array with:
+  // [0]: true/false indicating whether or not this date is selectable
+  // [1]: a CSS class name to add to the date's cell or "" for the default presentation
+  // [2]: an optional popup tooltip for this date
+  //
+  // The function is called for each day in the datepicker before it is displayed.
+  beforeShowDay: null,
 
   // Event shortcuts
   show: null,

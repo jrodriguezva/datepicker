@@ -5,7 +5,7 @@
  * Copyright 2014-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-02-19T12:18:04.827Z
+ * Date: 2019-03-06T15:55:07.537Z
  */
 
 (function (global, factory) {
@@ -92,6 +92,8 @@
     disabledClass: 'disabled',
     // A class (CSS) for highlight date item
     highlightedClass: 'highlighted',
+    // A class (CSS) for selected date item
+    selectedClass: 'selected',
     // The template of the datepicker
     template: '<div class="datepicker-container">' + '<div class="datepicker-panel" data-view="years picker">' + '<ul>' + '<li data-view="years prev">&lsaquo;</li>' + '<li data-view="years current"></li>' + '<li data-view="years next">&rsaquo;</li>' + '</ul>' + '<ul data-view="years"></ul>' + '</div>' + '<div class="datepicker-panel" data-view="months picker">' + '<ul>' + '<li data-view="year prev">&lsaquo;</li>' + '<li data-view="year current"></li>' + '<li data-view="year next">&rsaquo;</li>' + '</ul>' + '<ul data-view="months"></ul>' + '</div>' + '<div class="datepicker-panel" data-view="days picker">' + '<ul>' + '<li data-view="month prev">&lsaquo;</li>' + '<li data-view="month current"></li>' + '<li data-view="month next">&rsaquo;</li>' + '</ul>' + '<ul data-view="week"></ul>' + '<ul data-view="days"></ul>' + '</div>' + '</div>',
     // The offset top or bottom of the datepicker from the element
@@ -100,6 +102,13 @@
     zIndex: 1000,
     // Filter each date item (return `false` to disable a date item)
     filter: null,
+    // A function that takes a date as a parameter and must return an array with:
+    // [0]: true/false indicating whether or not this date is selectable
+    // [1]: a CSS class name to add to the date's cell or "" for the default presentation
+    // [2]: an optional popup tooltip for this date
+    //
+    // The function is called for each day in the datepicker before it is displayed.
+    beforeShowDay: null,
     // Event shortcuts
     show: null,
     hide: null,
@@ -432,12 +441,18 @@
      * @param {Boolean} _updated (private)
      */
     setDate: function setDate(date, _updated) {
-      var filter = this.options.filter;
+      var _this$options = this.options,
+          filter = _this$options.filter,
+          beforeShowDay = _this$options.beforeShowDay;
 
       if (isDate(date) || isString(date)) {
         date = this.parseDate(date);
 
         if ($.isFunction(filter) && filter.call(this.$element, date, 'day') === false) {
+          return;
+        }
+
+        if ($.isFunction(beforeShowDay) && beforeShowDay.call(this.$element, date, 'day') === false) {
           return;
         }
 
@@ -933,6 +948,7 @@
           currentDate = this.date;
       var disabledClass = options.disabledClass,
           filter = options.filter,
+          beforeShowDay = options.beforeShowDay,
           months = options.months,
           weekStart = options.weekStart,
           yearSuffix = options.yearSuffix;
@@ -981,6 +997,7 @@
       for (i = length - (n - 1); i <= length; i += 1) {
         var prevViewDate = new Date(prevViewYear, prevViewMonth, i);
         var disabled = false;
+        var selected = false;
 
         if (startDate) {
           disabled = prevViewDate.getTime() < startDate.getTime();
@@ -990,11 +1007,16 @@
           disabled = filter.call($element, prevViewDate, 'day') === false;
         }
 
+        if (!selected && beforeShowDay) {
+          selected = beforeShowDay.call($element, prevViewDate, 'day') === false;
+        }
+
         prevItems.push(this.createItem({
           disabled: disabled,
           highlighted: prevViewYear === thisYear && prevViewMonth === thisMonth && prevViewDate.getDate() === thisDay,
           muted: true,
           picked: prevViewYear === year && prevViewMonth === month && i === day,
+          selected: selected,
           text: i,
           view: 'day prev'
         }));
@@ -1029,6 +1051,7 @@
         var date = new Date(nextViewYear, nextViewMonth, i);
         var picked = nextViewYear === year && nextViewMonth === month && i === day;
         var _disabled = false;
+        var _selected = false;
 
         if (endDate) {
           _disabled = date.getTime() > endDate.getTime();
@@ -1038,11 +1061,16 @@
           _disabled = filter.call($element, date, 'day') === false;
         }
 
+        if (!_selected && beforeShowDay) {
+          _selected = beforeShowDay.call($element, date, 'day') === false;
+        }
+
         nextItems.push(this.createItem({
           disabled: _disabled,
           picked: picked,
           highlighted: nextViewYear === thisYear && nextViewMonth === thisMonth && date.getDate() === thisDay,
           muted: true,
+          selected: _selected,
           text: i,
           view: 'day next'
         }));
@@ -1056,6 +1084,7 @@
         var _date = new Date(viewYear, viewMonth, i);
 
         var _disabled2 = false;
+        var _selected2 = false;
 
         if (startDate) {
           _disabled2 = _date.getTime() < startDate.getTime();
@@ -1069,6 +1098,10 @@
           _disabled2 = filter.call($element, _date, 'day') === false;
         }
 
+        if (!_selected2 && beforeShowDay) {
+          _selected2 = beforeShowDay.call($element, _date, 'day') === false;
+        }
+
         var _picked = viewYear === year && viewMonth === month && i === day;
 
         var view = _picked ? 'day picked' : 'day';
@@ -1076,6 +1109,7 @@
           disabled: _disabled2,
           picked: _picked,
           highlighted: viewYear === thisYear && viewMonth === thisMonth && _date.getDate() === thisDay,
+          selected: _selected2,
           text: i,
           view: _disabled2 ? 'day disabled' : view
         }));
@@ -1415,6 +1449,7 @@
           muted: false,
           picked: false,
           disabled: false,
+          selected: false,
           highlighted: false
         };
         var classes = [];
@@ -1426,6 +1461,10 @@
 
         if (item.highlighted) {
           classes.push(options.highlightedClass);
+        }
+
+        if (item.selected) {
+          classes.push(options.selectedClass);
         }
 
         if (item.picked) {

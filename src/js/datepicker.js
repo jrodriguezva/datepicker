@@ -340,6 +340,7 @@ class Datepicker {
       muted: false,
       picked: false,
       disabled: false,
+      selected: false,
       highlighted: false,
     };
     const classes = [];
@@ -352,6 +353,10 @@ class Datepicker {
 
     if (item.highlighted) {
       classes.push(options.highlightedClass);
+    }
+
+    if (item.selected) {
+      classes.push(options.selectedClass);
     }
 
     if (item.picked) {

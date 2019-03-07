@@ -1,21 +1,24 @@
-QUnit.test('options.date: Date', function (assert) {
-  var $input = window.createInput();
-  var initialDate = new Date(2014, 1, 14);
+import QUnit from 'qunit';
+
+QUnit.test('options.date: Date', (assert) => {
+  const $input = window.createInput();
+  const initialDate = new Date(2014, 1, 14);
 
   $input.datepicker({
-    date: initialDate
+    date: initialDate,
   });
 
-  assert.equal($input.datepicker('getDate').getTime(), initialDate.getTime());
+  assert.strictEqual($input.datepicker('getDate')
+    .getTime(), initialDate.getTime());
 });
 
-QUnit.test('options.date: String', function (assert) {
-  var $input = window.createInput();
-  var initialDate = '02/14/2014';
+QUnit.test('options.date: String', (assert) => {
+  const $input = window.createInput();
+  const initialDate = '02/14/2014';
 
   $input.datepicker({
-    date: initialDate
+    date: initialDate,
   });
 
-  assert.equal($input.datepicker('getDate', true), initialDate);
+  assert.strictEqual($input.datepicker('getDate', true), initialDate);
 });
