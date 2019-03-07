@@ -213,12 +213,16 @@ export default {
    * @param {Boolean} _updated (private)
    */
   setDate(date, _updated) {
-    const { filter } = this.options;
+    const { filter, beforeShowDay } = this.options;
 
     if (isDate(date) || isString(date)) {
       date = this.parseDate(date);
 
       if ($.isFunction(filter) && filter.call(this.$element, date, 'day') === false) {
+        return;
+      }
+
+      if ($.isFunction(beforeShowDay) && beforeShowDay.call(this.$element, date, 'day') === false) {
         return;
       }
 

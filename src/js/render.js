@@ -13,7 +13,8 @@ export default {
     let { weekStart, daysMin } = this.options;
 
     weekStart = parseInt(weekStart, 10) % 7;
-    daysMin = daysMin.slice(weekStart).concat(daysMin.slice(0, weekStart));
+    daysMin = daysMin.slice(weekStart)
+      .concat(daysMin.slice(0, weekStart));
     $.each(daysMin, (i, day) => {
       items.push(this.createItem({
         text: day,
@@ -157,6 +158,7 @@ export default {
     const {
       disabledClass,
       filter,
+      beforeShowDay,
       months,
       weekStart,
       yearSuffix,
@@ -211,6 +213,7 @@ export default {
     for (i = length - (n - 1); i <= length; i += 1) {
       const prevViewDate = new Date(prevViewYear, prevViewMonth, i);
       let disabled = false;
+      let selected = false;
 
       if (startDate) {
         disabled = prevViewDate.getTime() < startDate.getTime();
@@ -218,6 +221,10 @@ export default {
 
       if (!disabled && filter) {
         disabled = filter.call($element, prevViewDate, 'day') === false;
+      }
+
+      if (!selected && beforeShowDay) {
+        selected = beforeShowDay.call($element, prevViewDate, 'day') === false;
       }
 
       prevItems.push(this.createItem({
@@ -229,6 +236,7 @@ export default {
         ),
         muted: true,
         picked: prevViewYear === year && prevViewMonth === month && i === day,
+        selected,
         text: i,
         view: 'day prev',
       }));
@@ -266,6 +274,7 @@ export default {
       const date = new Date(nextViewYear, nextViewMonth, i);
       const picked = nextViewYear === year && nextViewMonth === month && i === day;
       let disabled = false;
+      let selected = false;
 
       if (endDate) {
         disabled = date.getTime() > endDate.getTime();
@@ -273,6 +282,10 @@ export default {
 
       if (!disabled && filter) {
         disabled = filter.call($element, date, 'day') === false;
+      }
+
+      if (!selected && beforeShowDay) {
+        selected = beforeShowDay.call($element, date, 'day') === false;
       }
 
       nextItems.push(this.createItem({
@@ -284,6 +297,7 @@ export default {
           && date.getDate() === thisDay
         ),
         muted: true,
+        selected,
         text: i,
         view: 'day next',
       }));
@@ -297,6 +311,7 @@ export default {
     for (i = 1; i <= length; i += 1) {
       const date = new Date(viewYear, viewMonth, i);
       let disabled = false;
+      let selected = false;
 
       if (startDate) {
         disabled = date.getTime() < startDate.getTime();
@@ -310,6 +325,10 @@ export default {
         disabled = filter.call($element, date, 'day') === false;
       }
 
+      if (!selected && beforeShowDay) {
+        selected = beforeShowDay.call($element, date, 'day') === false;
+      }
+
       const picked = viewYear === year && viewMonth === month && i === day;
       const view = picked ? 'day picked' : 'day';
 
@@ -321,6 +340,7 @@ export default {
           && viewMonth === thisMonth
           && date.getDate() === thisDay
         ),
+        selected,
         text: i,
         view: disabled ? 'day disabled' : view,
       }));
