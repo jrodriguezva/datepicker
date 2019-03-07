@@ -112,6 +112,7 @@
         list-style: none;
         margin: 0;
         padding: 0;
+        position: relative;
         text-align: center;
         width: 30px;
 
@@ -148,11 +149,16 @@
           }
         }
 
-        &.selected,
-        &.selected:hover {
-          background-color: #fff;
-          color: #ccc;
-          cursor: default;
+        &.selected {
+          &::after {
+            color: #5f9ea0;
+            content: "\25CF";
+            left: 50%;
+            margin-left: -5px;
+            position: absolute;
+            top: 0.8em;
+            width: 10px;
+          }
 
           &.highlighted {
             background-color: rgb(229, 242, 255);

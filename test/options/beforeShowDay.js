@@ -1,7 +1,7 @@
-QUnit.test('options.filter', (assert) => {
+QUnit.test('options.filter', function (assert) {
   const $input = window.createInput();
   const datepicker = $input.datepicker({
-    beforeShowDay(date) {
+    beforeShowDay: function (date) {
       // Disable all Sundays
       return date.getDay() !== 0;
     },

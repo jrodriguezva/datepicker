@@ -5,8 +5,10 @@
  * Copyright 2014-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-03-07T11:21:51.024Z
+ * Date: 2019-03-07T12:09:16.330Z
  */
+
+@charset "UTF-8";
 
 .datepicker-container {
   background-color: #fff;
@@ -134,6 +136,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  position: relative;
   text-align: center;
   width: 30px;
 }
@@ -172,15 +175,17 @@
   background-color: #e5f2ff;
 }
 
-.datepicker-panel > ul > li.selected,
-.datepicker-panel > ul > li.selected:hover {
-  background-color: #fff;
-  color: #ccc;
-  cursor: default;
+.datepicker-panel > ul > li.selected::after {
+  color: #5f9ea0;
+  content: "●";
+  left: 50%;
+  margin-left: -5px;
+  position: absolute;
+  top: 0.8em;
+  width: 10px;
 }
 
-.datepicker-panel > ul > li.selected.highlighted,
-.datepicker-panel > ul > li.selected:hover.highlighted {
+.datepicker-panel > ul > li.selected.highlighted {
   background-color: #e5f2ff;
 }
 
