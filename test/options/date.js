@@ -1,5 +1,4 @@
-import QUnit from 'qunit';
-
+/* global QUnit */
 QUnit.test('options.date: Date', (assert) => {
   const $input = window.createInput();
   const initialDate = new Date(2014, 1, 14);

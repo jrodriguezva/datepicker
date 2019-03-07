@@ -1,5 +1,3 @@
-import QUnit from 'qunit';
-
 QUnit.test('options.autoShow', (assert) => {
   const $input = window.createInput();
   const datepicker = $input.datepicker({
