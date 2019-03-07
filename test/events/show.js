@@ -1,20 +1,20 @@
-import QUnit from 'qunit';
-import $ from 'jquery';
-
-$(() => {
+$(function () {
   const $input = window.createInput();
 
-  $input.on('show.datepicker', (e) => {
-    QUnit.test('events.show', (assert) => {
+  $input.on('show.datepicker', function (e) {
+    QUnit.test('events.show', function (assert) {
       assert.strictEqual(e.type, 'show');
       assert.strictEqual(e.namespace, 'datepicker');
     });
-  }).datepicker({
-    show(e) {
-      QUnit.test('options.show', (assert) => {
-        assert.strictEqual(e.type, 'show');
-        assert.strictEqual(e.namespace, 'datepicker');
-      });
-    },
-  }).datepicker('show').datepicker('hide');
+  })
+    .datepicker({
+      show: function (e) {
+        QUnit.test('options.show', function (assert) {
+          assert.strictEqual(e.type, 'show');
+          assert.strictEqual(e.namespace, 'datepicker');
+        });
+      },
+    })
+    .datepicker('show')
+    .datepicker('hide');
 });

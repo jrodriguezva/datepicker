@@ -1,10 +1,7 @@
-import QUnit from 'qunit';
-import $ from 'jquery';
-
-QUnit.test('options.filter', (assert) => {
+QUnit.test('options.filter', function (assert) {
   const $input = window.createInput();
   const datepicker = $input.datepicker({
-    beforeShowDay(date) {
+    beforeShowDay: function (date) {
       // Disable all Sundays
       return date.getDay() !== 0;
     },
@@ -14,7 +11,7 @@ QUnit.test('options.filter', (assert) => {
   $input.datepicker('show');
 
   datepicker.$days.children()
-    .each((i) => {
+    .each(function (i) {
       if (i % 7 === 0) {
         assert.ok($(this)
           .hasClass(datepicker.options.selectedClass));

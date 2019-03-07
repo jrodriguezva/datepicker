@@ -5,8 +5,10 @@
  * Copyright 2014-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-02-19T12:18:01.828Z
+ * Date: 2019-03-07T12:09:16.330Z
  */
+
+@charset "UTF-8";
 
 .datepicker-container {
   background-color: #fff;
@@ -134,12 +136,13 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  position: relative;
   text-align: center;
   width: 30px;
 }
 
 .datepicker-panel > ul > li:hover {
-  background-color: rgb(229, 242, 255);
+  background-color: #e5f2ff;
 }
 
 .datepicker-panel > ul > li.muted,
@@ -148,11 +151,11 @@
 }
 
 .datepicker-panel > ul > li.highlighted {
-  background-color: rgb(229, 242, 255);
+  background-color: #e5f2ff;
 }
 
 .datepicker-panel > ul > li.highlighted:hover {
-  background-color: rgb(204, 229, 255);
+  background-color: #cce5ff;
 }
 
 .datepicker-panel > ul > li.picked,
@@ -169,7 +172,21 @@
 
 .datepicker-panel > ul > li.disabled.highlighted,
 .datepicker-panel > ul > li.disabled:hover.highlighted {
-  background-color: rgb(229, 242, 255);
+  background-color: #e5f2ff;
+}
+
+.datepicker-panel > ul > li.selected::after {
+  color: #5f9ea0;
+  content: "●";
+  left: 50%;
+  margin-left: -5px;
+  position: absolute;
+  top: 0.8em;
+  width: 10px;
+}
+
+.datepicker-panel > ul > li.selected.highlighted {
+  background-color: #e5f2ff;
 }
 
 .datepicker-panel > ul > li[data-view="years prev"],
@@ -178,7 +195,7 @@
 .datepicker-panel > ul > li[data-view="years next"],
 .datepicker-panel > ul > li[data-view="year next"],
 .datepicker-panel > ul > li[data-view="month next"],
-.datepicker-panel > ul > li[data-view="next"] {
+.datepicker-panel > ul > li[data-view=next] {
   font-size: 18px;
 }
 
@@ -188,15 +205,15 @@
   width: 150px;
 }
 
-.datepicker-panel > ul[data-view="years"] > li,
-.datepicker-panel > ul[data-view="months"] > li {
+.datepicker-panel > ul[data-view=years] > li,
+.datepicker-panel > ul[data-view=months] > li {
   height: 52.5px;
   line-height: 52.5px;
   width: 52.5px;
 }
 
-.datepicker-panel > ul[data-view="week"] > li,
-.datepicker-panel > ul[data-view="week"] > li:hover {
+.datepicker-panel > ul[data-view=week] > li,
+.datepicker-panel > ul[data-view=week] > li:hover {
   background-color: #fff;
   cursor: default;
 }
